@@ -1,100 +1,98 @@
-HTML (index.html)
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Information Finder</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Info App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    select {
+      padding: 8px;
+      margin-bottom: 20px;
+    }
+    .course-details {
+      border: 1px solid #ccc;
+      padding: 15px;
+      width: 350px;
+      border-radius: 5px;
+    }
+    .course-details h2 {
+      margin-top: 0;
+      color: #0066cc;
+    }
+  </style>
 </head>
 <body>
-    <h1>Course Information Finder</h1>
-    <div class="course-container">
-        <h2>Courses Offering</h2>
-        <ul id="courses-list"></ul>
-    </div>
-    <div class="college-container">
-        <h2>Available Colleges</h2>
-        <ul id="colleges-list"></ul>
-    </div>
-    <div class="duration-container">
-        <h2>Course Duration</h2>
-        <p id="course-duration"></p>
-    </div>
-    <div class="job-container">
-        <h2>Job Opportunities</h2>
-        <ul id="job-opportunities-list"></ul>
-    </div>
 
-    <script src="script.js"></script>
+  <h1>Course Information Finder</h1>
+
+  <label for="courseSelect">Choose a course:</label>
+  <select id="courseSelect" onchange="showCourseDetails()">
+    <option value="">-- Select a Course --</option>
+    <option value="cs">Computer Science</option>
+    <option value="mba">MBA</option>
+    <option value="law">Law</option>
+  </select>
+
+  <div class="course-details" id="details" style="display:none;">
+    <h2 id="courseName"></h2>
+    <p><strong>College:</strong> <span id="collegeName"></span></p>
+    <p><strong>Duration:</strong> <span id="duration"></span></p>
+    <p><strong>Job Opportunities:</strong></p>
+    <ul id="jobList"></ul>
+  </div>
+
+  <script>
+    const courseData = {
+      cs: {
+        name: "Computer Science",
+        college: "MIT, Stanford, IITs",
+        duration: "4 Years (B.Tech)",
+        jobs: ["Software Developer", "Data Scientist", "AI Engineer", "System Analyst"]
+      },
+      mba: {
+        name: "MBA",
+        college: "Harvard, IIMs, Wharton",
+        duration: "2 Years",
+        jobs: ["Marketing Manager", "Business Analyst", "HR Manager", "Product Manager"]
+      },
+      law: {
+        name: "Law",
+        college: "Yale Law, NLU Delhi, Oxford",
+        duration: "5 Years (Integrated LLB)",
+        jobs: ["Corporate Lawyer", "Legal Advisor", "Judge", "Public Prosecutor"]
+      }
+    };
+
+    function showCourseDetails() {
+      const select = document.getElementById("courseSelect");
+      const value = select.value;
+
+      if (value && courseData[value]) {
+        const data = courseData[value];
+        document.getElementById("courseName").textContent = data.name;
+        document.getElementById("collegeName").textContent = data.college;
+        document.getElementById("duration").textContent = data.duration;
+
+        const jobList = document.getElementById("jobList");
+        jobList.innerHTML = "";
+        data.jobs.forEach(job => {
+          const li = document.createElement("li");
+          li.textContent = job;
+          jobList.appendChild(li);
+        });
+
+        document.getElementById("details").style.display = "block";
+      } else {
+        document.getElementById("details").style.display = "none";
+      }
+    }
+  </script>
+
 </body>
 </html>
-
-CSS (styles.css)
-body {
-    font-family: Arial, sans-serif;
-}
-
-.course-container, .college-container, .duration-container, .job-container {
-    margin-bottom: 20px;
-}
-
-#courses-list, #colleges-list, #job-opportunities-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#courses-list li, #colleges-list li, #job-opportunities-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-JavaScript (script.js)
-// Sample data
-const courses = [
-    {
-        name: "BCA",
-        colleges: ["Aditya Degree College", "Kurnool University"],
-        duration: "3 years",
-        jobOpportunities: ["Software Developer", "Data Analyst"]
-    },
-    {
-        name: "BSc",
-        colleges: ["Kurnool University", "Rayalaseema University"],
-        duration: "3 years",
-        jobOpportunities: ["Research Scientist", "Lab Assistant"]
-    }
-];
-
-// Populate courses list
-const coursesList = document.getElementById("courses-list");
-courses.forEach(course => {
-    const li = document.createElement("li");
-    li.textContent = course.name;
-    coursesList.appendChild(li);
-});
-
-// Populate colleges list based on selected course
-const collegesList = document.getElementById("colleges-list");
-const courseDuration = document.getElementById("course-duration");
-const jobOpportunitiesList = document.getElementById("job-opportunities-list");
-
-coursesList.addEventListener("click", (e) => {
-    if (e.target.tagName === "LI") {
-        const selectedCourse = courses.find(course => course.name === e.target.textContent);
-        collegesList.innerHTML = "";
-        selectedCourse.colleges.forEach(college => {
-            const li = document.createElement("li");
-            li.textContent = college;
-            collegesList.appendChild(li);
-        });
-        courseDuration.textContent = `Duration: ${selectedCourse.duration}`;
-        jobOpportunitiesList.innerHTML = "";
-        selectedCourse.jobOpportunities.forEach(job => {
-            const li = document.createElement("li");
-            li.textContent = job;
-            jobOpportunitiesList.appendChild(li);
-        });
-    }
-});

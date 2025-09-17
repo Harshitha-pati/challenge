@@ -1,33 +1,100 @@
-<html>
+HTML (index.html)
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>University Infrastructure</title>
-<style>
-.row{display:flex;border-bottom:1px solid #ccc; padding:8px;}
-.col{flex:1;padding:4px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Information Finder</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body style="background-color:yellow;">
-<div class="container">
-<div style=color:pink; class="header">My University Infrastructure</div>
-<div style=color:purple; class="row heading">
-<div class="col">Facility</div>
-<div class="col">Description</div>
-<div class="col">capacity</div>
-</div>
-<div style=color:red; class="row">
-<div class="col">library</div>
-<div class="col">equipped with 50000+ books, journals & digital resources</div>
-<div class="col">200 seats</div>
-</div>
-<div style=color:green; class="row">
-<div class="col">Computer lab</div>
-<div class="col">modern lab with high speed computers</div>
-<div class="col">250 students</div>
-</div>
-<div style=color:purple; class="row">
-<div class="col">seminar hall</div>
-<div class="col">Well designed space for academic and professionals like lectures, conference</div>
-<div class="col">300 students</div>
-</div> 
-</div>
+<body>
+    <h1>Course Information Finder</h1>
+    <div class="course-container">
+        <h2>Courses Offering</h2>
+        <ul id="courses-list"></ul>
+    </div>
+    <div class="college-container">
+        <h2>Available Colleges</h2>
+        <ul id="colleges-list"></ul>
+    </div>
+    <div class="duration-container">
+        <h2>Course Duration</h2>
+        <p id="course-duration"></p>
+    </div>
+    <div class="job-container">
+        <h2>Job Opportunities</h2>
+        <ul id="job-opportunities-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+</html>
+
+CSS (styles.css)
+body {
+    font-family: Arial, sans-serif;
+}
+
+.course-container, .college-container, .duration-container, .job-container {
+    margin-bottom: 20px;
+}
+
+#courses-list, #colleges-list, #job-opportunities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#courses-list li, #colleges-list li, #job-opportunities-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+JavaScript (script.js)
+// Sample data
+const courses = [
+    {
+        name: "BCA",
+        colleges: ["Aditya Degree College", "Kurnool University"],
+        duration: "3 years",
+        jobOpportunities: ["Software Developer", "Data Analyst"]
+    },
+    {
+        name: "BSc",
+        colleges: ["Kurnool University", "Rayalaseema University"],
+        duration: "3 years",
+        jobOpportunities: ["Research Scientist", "Lab Assistant"]
+    }
+];
+
+// Populate courses list
+const coursesList = document.getElementById("courses-list");
+courses.forEach(course => {
+    const li = document.createElement("li");
+    li.textContent = course.name;
+    coursesList.appendChild(li);
+});
+
+// Populate colleges list based on selected course
+const collegesList = document.getElementById("colleges-list");
+const courseDuration = document.getElementById("course-duration");
+const jobOpportunitiesList = document.getElementById("job-opportunities-list");
+
+coursesList.addEventListener("click", (e) => {
+    if (e.target.tagName === "LI") {
+        const selectedCourse = courses.find(course => course.name === e.target.textContent);
+        collegesList.innerHTML = "";
+        selectedCourse.colleges.forEach(college => {
+            const li = document.createElement("li");
+            li.textContent = college;
+            collegesList.appendChild(li);
+        });
+        courseDuration.textContent = `Duration: ${selectedCourse.duration}`;
+        jobOpportunitiesList.innerHTML = "";
+        selectedCourse.jobOpportunities.forEach(job => {
+            const li = document.createElement("li");
+            li.textContent = job;
+            jobOpportunitiesList.appendChild(li);
+        });
+    }
+});

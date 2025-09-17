@@ -1,0 +1,6 @@
+This repository completly describes about the different courses offered and several colleges available .
+Here we can see several courses.
+Based on the selected course, we can see various colleges offering that course for students.
+It also shows the course duration period.
+It will provides several job opportunities after completing that course.
+It will use for decision making. 
